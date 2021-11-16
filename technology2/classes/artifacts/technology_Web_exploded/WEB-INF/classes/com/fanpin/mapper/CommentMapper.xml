@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanpin.dao.ICommentDao">
+
+    <insert id="insertCommmentLog" parameterType="com.fanpin.entity.Log" keyProperty="logid" useGeneratedKeys="true">
+        INSERT INTO log (uid, adminid, descb, bytime) VALUES (#{uid}, #{adminid}, #{descb}, #{bytime})
+    </insert>
+
+    <select id="selAllComment" resultType="com.fanpin.entity.Comment">
+        SELECT * FROM comment order by commentid desc
+    </select>
+    <delete id="deleteCommentById" parameterType="int">
+        DELETE FROM comment WHERE commentid = #{commentid}
+    </delete>
+    <delete id="deleteAllCommentByUid" parameterType="int">
+        DELETE FROM comment WHERE uid = #{uid}
+    </delete>
+    <insert id="addComment" parameterType="com.fanpin.entity.Comment">
+        INSERT INTO comment(pid, uid,descb,uname,pname,commentdate) VALUE (#{pid},#{uid},#{descb},#{uname},#{pname},curdate())
+    </insert>
+
+    <select id="selCommentListByUid" resultType="com.fanpin.entity.Comment" parameterType="int">
+        select commentid,pid,uid,descb,uname,pname,commentdate from comment where uid=#{uid} order by commentid desc
+    </select>
+
+    <select id="selCommentListByPid" resultType="com.fanpin.entity.Comment" parameterType="int">
+        select commentid,pid,uid,descb,uname,pname,commentdate from comment where pid=#{pid} order by commentid desc
+    </select>
+</mapper>
